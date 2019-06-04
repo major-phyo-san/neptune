@@ -16,28 +16,39 @@ class CountryResourceController extends Controller
      */
     public function index(Request $request)
     {
+        $response = [
+            "success" => true,
+            "timestamp" => time()
+        ];
         
         if($request->has('country_code'))
         {
             $countryCode = $request->input('country_code');
-            $contentRaw = Country::query()->where('country_code','=',$countryCode)->get();            
-            $content = new CountryResource($contentRaw);
-            return $content;            
+            $content = Country::query()->where('country_code','=',$countryCode)->get()[0];           
+            $response += [
+                "countries" => $content
+            ]; 
+            return response()->json($response);               
         }
 
         if($request->has('country_name'))
         {
             $countryName =  $request->input('country_name');
-            $contentRaw = Country::query()->where('country_name', 'LIKE', "%{$countryName}%")->get();
-            $content = new CountryResource($contentRaw);
-            return $content;            
+            $content = Country::query()->where('country_name', 'LIKE', "%{$countryName}%")->get()[0];
+            $response += [
+                "countries" => $content
+            ]; 
+            return response()->json($response);    
         }
 
         else
         {
-           $contentRaw = Country::get();
-           $content = new CountryResource($contentRaw);
-           return $content;
+           $content = Country::get();
+           $response += [
+                "countries" => $content
+            ];
+           
+           return response()->json($response);
                    
         }
 
@@ -65,9 +76,15 @@ class CountryResourceController extends Controller
     public function show($id)
     {
         //
-        $contentRaw = Country::query()->where('id','=',$id)->get();
-        $content = new CountryResource($contentRaw);
-        return $content; 
+        $response = [
+            "success" => true,
+            "timestamp" => time()
+        ];
+        $content = Country::query()->where('id','=',$id)->get()[0];
+        $response += [
+                "countries" => $content
+            ]; 
+        return response()->json($response);    
     }
     
 

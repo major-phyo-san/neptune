@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use App\Models\Country;
+use App\Models\Rate;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['prefix'=>'api', 'namespace'=>'Api'], function(){
 	Route::resource('countries', 'Api\CountryResourceController');
 	Route::resource('rates','Api\RateResourceController');
+	Route::resource('/currencies/history','Api\CurrencyHistoryController');
 });
 
 /*
@@ -44,3 +48,19 @@ Route::get('/rates','Api\RateResourceController@index');
 Route::post('/rates/store', 'Api\RateResourceController@store');
 Route::put('/rates/update/{id}', 'Api\RateResourceController@update');
 
+/*
+**
+handle routes with /currencies/history
+this will return a list of countries available for currency stuffs
+**
+*/
+Route::get('/currencies/history','Api\CurrencyHistoryController@findExchange');
+
+
+Route::get('/currencies/test', function(Request $request){
+	if($request->has('list'))
+	{
+		$word_arr = explode(',', $request->input('list'));
+		return $word_arr[0];
+	}
+});

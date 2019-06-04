@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Rate extends Model
 {
     //
-    protected $visible = ['country_id','recorded_date','currency_rate'];
+    public $visible = ['country_id','recorded_date','currency_rate'];
 
-    protected $fillable = ['country_id','recorded_date','currency_rate'];
+    public $fillable = ['country_id','recorded_date','currency_rate'];
+
+    public function country()
+    {
+    	return $this->belongsTo(Country::class);
+    }
 }
