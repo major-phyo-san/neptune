@@ -54,13 +54,4 @@ handle routes with /currencies/history
 this will return a list of countries available for currency stuffs
 **
 */
-Route::get('/currencies/history','Api\CurrencyHistoryController@findExchange');
-
-
-Route::get('/currencies/test', function(Request $request){
-	if($request->has('list'))
-	{
-		$word_arr = explode(',', $request->input('list'));
-		return $word_arr[0];
-	}
-});
+Route::get('/currencies/history','Api\CurrencyHistoryController@findHistoryExchanges');
