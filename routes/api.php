@@ -68,8 +68,10 @@ this will return a list of countries available for currency stuffs
 Route::get('/currencies/latest','Api\CurrencyLatestController@findLatestExchanges');
 Route::get('/currencies/latest/{currency_code}','Api\CurrencyLatestController@findSingleLatestExchange');
 
-Route::get('/date-test', function(){
-	$date="";
-	$date = Carbon::now()->year."-".Carbon::now()->month."-".Carbon::now()->day;
-	return $date;
-});
+/*
+**
+handle routes with /currencies/convert
+this will return a list of countries available for currency stuffs
+**
+*/
+Route::get('/currencies/convert','Api\CurrencyConvertController@convert');

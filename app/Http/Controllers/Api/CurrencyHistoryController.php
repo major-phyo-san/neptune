@@ -91,7 +91,7 @@ class CurrencyHistoryController extends Controller
     		"success" => true,
     		"timestamp" => time(),
     		"date" => $date,
-    		"latest" => true,
+    		"historical" => true,
     		"base" => "USD",    		
     	];
 
