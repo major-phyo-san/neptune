@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Models\Country;
 use App\Models\Rate;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ Route::group(['prefix'=>'api', 'namespace'=>'Api'], function(){
 	Route::resource('countries', 'Api\CountryResourceController');
 	Route::resource('rates','Api\RateResourceController');
 	Route::resource('/currencies/history','Api\CurrencyHistoryController');
+	Route::resource('/currencies/latest','Api\CurrencyLatestController');
 });
 
 /*
@@ -55,3 +57,19 @@ this will return a list of countries available for currency stuffs
 **
 */
 Route::get('/currencies/history','Api\CurrencyHistoryController@findHistoryExchanges');
+Route::get('/currencies/history/{currrecy_code}','Api\CurrencyHistoryController@findSingleHistoryExchange');
+
+/*
+**
+handle routes with /currencies/latest
+this will return a list of countries available for currency stuffs
+**
+*/
+Route::get('/currencies/latest','Api\CurrencyLatestController@findLatestExchanges');
+Route::get('/currencies/latest/{currency_code}','Api\CurrencyLatestController@findSingleLatestExchange');
+
+Route::get('/date-test', function(){
+	$date="";
+	$date = Carbon::now()->year."-".Carbon::now()->month."-".Carbon::now()->day;
+	return $date;
+});

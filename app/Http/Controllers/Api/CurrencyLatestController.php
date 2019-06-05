@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Rate;
+use Carbon\Carbon;
 
-class CurrencyHistoryController extends Controller
-{   
-
-    public function findHistoryExchanges(Request $request)
+class CurrencyLatestController extends Controller
+{
+    //
+    public function findLatestExchanges(Request $request)
     {
     	$currency_codes = ['USD'];
     	if($request->has('codes'))
@@ -18,17 +19,14 @@ class CurrencyHistoryController extends Controller
     		$currency_codes = explode(',', $request->input('codes'));
     	}
     	$arr_count = count($currency_codes);
-    	$date = '2019-01-01';
-    	if($request->has('date'))
-    	{
-    		$date = $request->input('date');
-    	}
-
+    	$now = Carbon::now();
+    	$date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');   	
+    	
     	$response = [
     		"success" => true,
     		"timestamp" => time(),
     		"date" => $date,
-    		"historical" => true,
+    		"latest" => true,
     		"base" => "USD",    		
     	];
     	
@@ -76,17 +74,13 @@ class CurrencyHistoryController extends Controller
     	}
 
     	return response()->json($response);
-
     }
 
-    public function findSingleHistoryExchange(Request $request, $currency_code)
+    public function findSingleLatestExchange($currency_code)
     {
-    	$date = '2019-01-01';
-    	if($request->has('date'))
-    	{
-    		$date = $request->input('date');
-    	}
-
+    	$now = Carbon::now();
+    	$date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');   	
+    	
     	$response = [
     		"success" => true,
     		"timestamp" => time(),
