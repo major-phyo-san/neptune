@@ -73,7 +73,11 @@ class CurrencyLatestController extends Controller
     			];
     	}
 
-    	return response()->json($response);
+    	return response()->json($response)
+     	->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);
     }
 
     public function findSingleLatestExchange($currency_code)
@@ -103,7 +107,11 @@ class CurrencyLatestController extends Controller
 				'country_code' => $country[0]->country_code,
 							],
 					];	
-		return response()->json($response);
+		return response()->json($response)
+		 ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);
 
     }
 }

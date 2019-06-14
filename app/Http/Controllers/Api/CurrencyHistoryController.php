@@ -75,7 +75,11 @@ class CurrencyHistoryController extends Controller
     			];
     	}
 
-    	return response()->json($response);
+    	return response()->json($response)
+         ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);
 
     }
 
@@ -109,7 +113,11 @@ class CurrencyHistoryController extends Controller
 				'country_code' => $country[0]->country_code,
 							],
 					];	
-		return response()->json($response);
+		return response()->json($response)
+         ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);
 
     }
 }

@@ -64,6 +64,10 @@ class CurrencyConvertController extends Controller
 
     	
 
-    	return response()->json($response);
+    	return response()->json($response)
+    	 ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);
     }
 }

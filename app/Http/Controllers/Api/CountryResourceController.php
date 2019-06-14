@@ -28,7 +28,11 @@ class CountryResourceController extends Controller
             $response += [
                 "countries" => $content
             ]; 
-            return response()->json($response);               
+            return response()->json($response)
+            ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);               
         }
 
         if($request->has('country_name'))
@@ -38,7 +42,11 @@ class CountryResourceController extends Controller
             $response += [
                 "countries" => $content
             ]; 
-            return response()->json($response);    
+            return response()->json($response)
+            ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);    
         }
 
         else
@@ -48,7 +56,11 @@ class CountryResourceController extends Controller
                 "countries" => $content
             ];
            
-           return response()->json($response);
+           return response()->json($response)
+           ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);
                    
         }
 
@@ -84,7 +96,11 @@ class CountryResourceController extends Controller
         $response += [
                 "countries" => $content
             ]; 
-        return response()->json($response);    
+        return response()->json($response)
+        ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);    
     }
     
 
