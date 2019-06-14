@@ -120,4 +120,49 @@ class CurrencyHistoryController extends Controller
            ]);
 
     }
+
+    public function findAllHistoryExchanges(Request $request)
+    {
+        $date = '2019-01-01';
+        if($request->has('date'))
+        {
+            $date = $request->input('date');
+        }
+        $response = [
+            "success" => true,
+            "timestamp" => time(),
+            "date" => $date,
+            "historical" => true,
+            "base" => "USD",            
+        ];
+
+        /*$country_count = Country::query()->get();
+        $arr_count = count($country_count);
+        $contentCollection = [$arr_count];
+        //$country_id = [$arr_count];
+
+        for($i=0; $i<$arr_count; $i++)
+        {
+            $country = Country::find($i+1);
+            
+            $rate = Rate::query()->where('recorded_date','=',$date)->where('country_id','=',$country->id)->get();
+            $contentCollection[$i] = [
+                    "rate" => $rate[0]->currency_rate,
+                    'name' => $country->currency_name,
+                    'code' => $country->currency_code,
+                    'symbol' => $country->currency_symbol,
+                    'country_code' => $country->country_code,
+                ];
+        }
+
+        $response += [
+                "currencies" => $contentCollection,
+                ];*/
+
+        return response()->json($response)
+        ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+           ]);        
+    }
 }

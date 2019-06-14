@@ -56,8 +56,11 @@ handle routes with /currencies/history
 this will return a list of countries available for currency stuffs
 **
 */
-Route::get('/currencies/history/batch','Api\CurrencyHistoryController@findHistoryExchanges');
+
+Route::get('/currencies/history','Api\CurrencyHistoryController@findAllHistoryExchanges');
 Route::get('/currencies/history/{currrecy_code}','Api\CurrencyHistoryController@findSingleHistoryExchange');
+Route::get('/currencies/history/batch','Api\CurrencyHistoryController@findHistoryExchanges');
+
 
 /*
 **
