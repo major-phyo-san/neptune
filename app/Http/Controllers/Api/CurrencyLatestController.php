@@ -26,7 +26,7 @@ class CurrencyLatestController extends Controller
     		"success" => true,
     		"timestamp" => time(),
     		"date" => $date,
-    		"latest" => true,
+    		"exchange_type" => "latest",
     		"base" => "USD",    		
     	];
     	
@@ -89,7 +89,7 @@ class CurrencyLatestController extends Controller
     		"success" => true,
     		"timestamp" => time(),
     		"date" => $date,
-    		"latest" => true,
+    		"exchange_type" => "latest",
     		"base" => "USD",    		
     	];
 

@@ -53,7 +53,7 @@ class CurrencyConvertController extends Controller
     		"timestamp" => time(),
     		"date" => $date,    		
     		"base" => "USD",
-    		"convert" => true,
+    		"exchange_type" => "convert",
     		'conversion' => [
     			'from' => $from_currency_code,
     			'to' => $to_currency_code,
