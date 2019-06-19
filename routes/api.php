@@ -57,9 +57,9 @@ this will return a list of countries available for currency stuffs
 **
 */
 
-Route::get('/currencies/history','Api\CurrencyHistoryController@findAllHistoryExchanges');
-Route::get('/currencies/history/{currrecy_code}','Api\CurrencyHistoryController@findSingleHistoryExchange');
-Route::get('/currencies/history/batch','Api\CurrencyHistoryController@findHistoryExchanges');
+Route::get('/currencies/history/batch', 'Api\CurrencyHistoryController@batch');
+Route::get('/currencies/history','Api\CurrencyHistoryController@index');
+Route::get('/currencies/history/{currency_code}','Api\CurrencyHistoryController@show');
 
 
 /*
@@ -68,9 +68,11 @@ handle routes with /currencies/latest
 this will return a list of countries available for currency stuffs
 **
 */
-Route::get('/currencies/latest','Api\CurrencyLatestController@findLatestExchanges');
-Route::get('/currencies/latest/{currency_code}','Api\CurrencyLatestController@findSingleLatestExchange');
 
+Route::get('/currencies/latest/batch', 'Api\CurrencyLatestController@batch');
+
+Route::get('/currencies/latest/{currency_code}','Api\CurrencyLatestController@show');
+Route::get('/currencies/latest','Api\CurrencyLatestController@test');
 /*
 **
 handle routes with /currencies/convert

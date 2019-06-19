@@ -23,7 +23,7 @@ class CountryResourceController extends Controller
         if($request->has('country_code'))
         {
             $countryCode = $request->input('country_code');
-            $content = Country::query()->where('country_code','=',$countryCode)->get()[0];           
+            $content = Country::query()->where('country_code','=',$countryCode)->get();           
             $response += [
                 "countries" => $content
             ]; 
@@ -37,7 +37,7 @@ class CountryResourceController extends Controller
         if($request->has('country_name'))
         {
             $countryName =  $request->input('country_name');
-            $content = Country::query()->where('country_name', 'LIKE', "%{$countryName}%")->get()[0];
+            $content = Country::query()->where('country_name', 'LIKE', "%{$countryName}%")->get();
             $response += [
                 "countries" => $content
             ]; 
