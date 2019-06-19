@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CountryResource;
 use App\Models\Country;
 
 class CountryResourceController extends Controller
@@ -92,7 +91,7 @@ class CountryResourceController extends Controller
             "success" => true,
             "timestamp" => time()
         ];
-        $content = Country::query()->where('id','=',$id)->get()[0];
+        $content = Country::findOrFail($id);
         $response += [
                 "countries" => $content
             ]; 
