@@ -34,11 +34,11 @@ handle routes with /countries
 this will return a list of countries available for currency stuffs
 **
 */
-Route::get('/countries','Api\CountryResourceController@index');
-Route::get('/countries/{id}', 'Api\CountryResourceController@show');
-Route::post('/countries/store', 'Api\CountryResourceController@store');
-Route::put('/countries/update/{id}', 'Api\CountryResourceController@update');
-Route::delete('/countries/delete/{id}', 'Api\CountryResourceController@destroy');
+Route::get('/countries','Api\CountryResourceController@index'); //GET /api/countries
+Route::get('/countries/{id}', 'Api\CountryResourceController@show'); //GET /api/countries/id
+Route::post('/countries/store', 'Api\CountryResourceController@store'); //POST /api/countries/store
+Route::put('/countries/update/{id}', 'Api\CountryResourceController@update'); //PUT /api/countries/update/id
+Route::delete('/countries/delete/{id}', 'Api\CountryResourceController@destroy'); //DELETE /api/countries/delete/id
 
 /*
 **
