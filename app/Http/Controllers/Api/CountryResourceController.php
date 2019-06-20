@@ -17,13 +17,15 @@ class CountryResourceController extends Controller
     {
         $response = [
             "success" => true,
-            "timestamp" => time()
+            "timestamp" => time(),
+            "exchange_typ"=>"Available countries",
+            "message"=>"you must specify date in YYYY-DD-MM format",
         ];
         
         if($request->has('country_code'))
         {
             $countryCode = $request->input('country_code');
-            $content = Country::query()->where('country_code','=',$countryCode)->get()[0];           
+            $content = Country::query()->where('country_code','=',$countryCode)->get();           
             $response += [
                 "countries" => $content
             ]; 
@@ -37,7 +39,7 @@ class CountryResourceController extends Controller
         if($request->has('country_name'))
         {
             $countryName =  $request->input('country_name');
-            $content = Country::query()->where('country_name', 'LIKE', "%{$countryName}%")->get()[0];
+            $content = Country::query()->where('country_name', 'LIKE', "%{$countryName}%")->get();
             $response += [
                 "countries" => $content
             ]; 
@@ -62,8 +64,7 @@ class CountryResourceController extends Controller
            ]);
                    
         }
-
-
+        
     }   
 
     /**
@@ -89,9 +90,11 @@ class CountryResourceController extends Controller
         //
         $response = [
             "success" => true,
-            "timestamp" => time()
+            "timestamp" => time(),
+            "exchange_typ"=>"Listing countries",
+            "message"=>"you must specify date in YYYY-DD-MM format",
         ];
-        $content = Country::query()->where('id','=',$id)->get()[0];
+        $content = Country::findOrFail($id);
         $response += [
                 "countries" => $content
             ]; 
@@ -100,8 +103,7 @@ class CountryResourceController extends Controller
             "Content-Type" => 'application/json; charset=utf-8',
             "Access-Control-Allow-Origin" => '*',
            ]);    
-    }
-    
+    }    
 
     /**
      * Update the specified resource in storage.
