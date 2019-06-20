@@ -10,77 +10,13 @@ use Carbon\Carbon;
 
 class CurrencyLatestController extends Controller
 {  
-	public function index(Request $request)
+    public function index(Request $request)
     {
-<<<<<<< HEAD
-    	$currency_codes = ['USD'];
-    	if($request->has('codes'))
-    	{
-    		$currency_codes = explode(',', $request->input('codes'));
-    	}
-    	$arr_count = count($currency_codes);
-    	$now = Carbon::now();
-    	$date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');   	
-    	
-    	$response = [
-    		"success" => true,
-    		"timestamp" => time(),
-    		"date" => $date,
-    		"exchange_type" => "latest",
-    		"base" => "USD",    		
-    	];
-    	
-    	
-    	if($arr_count==1)
-    	{    		
-    		$country = Country::query()->where('currency_code','=',$currency_codes[0])->get();
-			$country_id = $country[0]->id;	
-	
-			$rate = Rate::query()->where('recorded_date','=',$date)->where('country_id','=',$country_id)->get();
-			$response += [
-			'currency' => [
-				'rate' => $rate[0]->currency_rate,
-				'name' => $country[0]->currency_name,
-				'code' => $country[0]->currency_code,
-				'symbol' => $country[0]->currency_symbol,
-				'country_code' => $country[0]->country_code,
-							],
-					];	
-    	}
-
-    	else
-    	{
-    		$contentCollection = [$arr_count];   
-			$country_id = [$arr_count];  
-
-    		for($i=0; $i<$arr_count; $i++)
-    		{  			  		
-    			$country = Country::query()->where('currency_code','=',$currency_codes[$i])->get(); 
-    			$country_id[$i] = $country[0]->id;
-    			$rate = Rate::query()->where('recorded_date','=',$date)->where('country_id','=',$country_id[$i])->get();
-
-    			$contentCollection[$i] = [
-    				"rate" => $rate[0]->currency_rate,
-    				'name' => $country[0]->currency_name,
-					'code' => $country[0]->currency_code,
-					'symbol' => $country[0]->currency_symbol,
-					'country_code' => $country[0]->country_code,
-    			];
-    		}
-
-    		$response += [
-    			"currencies" => $contentCollection,
-    			];
-    	}
-
-    	return response()->json($response)
-     	->withHeaders([
-=======
         $response = [];
         $successFlag = true;
 
         $now = Carbon::now();
-    	$date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
+        $date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
 
         $response = [
             "success"=> $successFlag,
@@ -123,7 +59,7 @@ class CurrencyLatestController extends Controller
     {
         $successFlag = true;
         $now = Carbon::now();
-    	$date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
+        $date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
 
         $response = [
             "success"=> $successFlag,
@@ -151,7 +87,6 @@ class CurrencyLatestController extends Controller
 
         return response()->json($response)
          ->withHeaders([
->>>>>>> side-branch
             "Content-Type" => 'application/json; charset=utf-8',
             "Access-Control-Allow-Origin" => '*',
         ]);
@@ -160,35 +95,6 @@ class CurrencyLatestController extends Controller
 
     public function batch(Request $request)
     {
-<<<<<<< HEAD
-    	$now = Carbon::now();
-    	$date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');   	
-    	
-    	$response = [
-    		"success" => true,
-    		"timestamp" => time(),
-    		"date" => $date,
-    		"exchange_type" => "latest",
-    		"base" => "USD",    		
-    	];
-
-    	$country = Country::query()->where('currency_code','=',$currency_code)->get();
-		$country_id = $country[0]->id;	
-	
-		$rate = Rate::query()->where('recorded_date','=',$date)->where('country_id','=',$country_id)->get();
-
-		$response += [
-			'currency' => [
-				'rate' => $rate[0]->currency_rate,
-				'name' => $country[0]->currency_name,
-				'code' => $country[0]->currency_code,
-				'symbol' => $country[0]->currency_symbol,
-				'country_code' => $country[0]->country_code,
-							],
-					];	
-		return response()->json($response)
-		 ->withHeaders([
-=======
         $successFlag = true;
         $currency_codes = ['USD','MMK'];
         if($request->has('codes'))
@@ -196,7 +102,7 @@ class CurrencyLatestController extends Controller
             $currency_codes = explode(',', $request->input('codes'));
         }
         $now = Carbon::now();
-    	$date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
+        $date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
 
         $response = [
             "success"=> $successFlag,
@@ -233,7 +139,6 @@ class CurrencyLatestController extends Controller
 
         return response()->json($response)
          ->withHeaders([
->>>>>>> side-branch
             "Content-Type" => 'application/json; charset=utf-8',
             "Access-Control-Allow-Origin" => '*',
         ]);
