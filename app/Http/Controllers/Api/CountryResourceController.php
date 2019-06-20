@@ -17,7 +17,9 @@ class CountryResourceController extends Controller
     {
         $response = [
             "success" => true,
-            "timestamp" => time()
+            "timestamp" => time(),
+            "exchange_typ"=>"Available countries",
+            "message"=>"you must specify date in YYYY-DD-MM format",
         ];
         
         if($request->has('country_code'))
@@ -62,8 +64,7 @@ class CountryResourceController extends Controller
            ]);
                    
         }
-
-
+        
     }   
 
     /**
@@ -89,7 +90,9 @@ class CountryResourceController extends Controller
         //
         $response = [
             "success" => true,
-            "timestamp" => time()
+            "timestamp" => time(),
+            "exchange_typ"=>"Listing countries",
+            "message"=>"you must specify date in YYYY-DD-MM format",
         ];
         $content = Country::findOrFail($id);
         $response += [
@@ -100,8 +103,7 @@ class CountryResourceController extends Controller
             "Content-Type" => 'application/json; charset=utf-8',
             "Access-Control-Allow-Origin" => '*',
            ]);    
-    }
-    
+    }    
 
     /**
      * Update the specified resource in storage.

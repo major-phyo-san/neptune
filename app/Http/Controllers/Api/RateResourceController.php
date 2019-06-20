@@ -16,7 +16,43 @@ class RateResourceController extends Controller
     public function index()
     {
         //
-        return Rate::get();
+        $response = [
+            "success"=>true,
+            "timestamp"=>time(),
+            "exchange_type"=>"Recorded rates",
+            "message"=>"you must specify date in YYYY-DD-MM format",
+        ];
+        $content = Rate::get();
+
+        $response += [
+            "recorded_rates"=>$content,
+        ];
+        return response()->json($response)
+        ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+        ]);  
+    }
+
+    public function show($id)
+    {
+        //
+        $response = [
+            "success" => true,
+            "timestamp" => time(),
+            "exchange_type"=>"Recorded rates",
+            "message"=>"you must specify date in YYYY-DD-MM format",
+        ];        
+        $content = Rate::findOrFail($id);
+
+        $response += [
+                "recorded_rates" => $content
+        ];
+        return response()->json($response)
+        ->withHeaders([
+            "Content-Type" => 'application/json; charset=utf-8',
+            "Access-Control-Allow-Origin" => '*',
+        ]);    
     }
 
     
@@ -24,9 +60,7 @@ class RateResourceController extends Controller
     {
         //
         Rate::create($request->all());
-    }
-
-    
+    }    
 
     /**
      * Update the specified resource in storage.
@@ -40,6 +74,12 @@ class RateResourceController extends Controller
         //
         $rate = Rate::findOrFail($id);
         $rate->update($request->all());
+    }
+
+    public function destroy($id)
+    {
+        $rate = Rate::findOrFail($id);
+        $rate->delete();
     }
     
 }
