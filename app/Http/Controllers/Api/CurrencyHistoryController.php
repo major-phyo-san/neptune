@@ -11,7 +11,7 @@ class CurrencyHistoryController extends APIBaseController
 {
     public function index(Request $request)
     {
-        $date = '2019-01-01';
+        $date = '2019-06-01';
         if($request->has('date'))
         {
             $date = $request->input('date');
@@ -40,7 +40,7 @@ class CurrencyHistoryController extends APIBaseController
 
     public function show(Request $request, $currency_code)
     {
-        $date = '2019-01-01';
+        $date = '2019-06-01';
         if($request->has('date'))
         {
             $date = $request->input('date');
@@ -65,7 +65,7 @@ class CurrencyHistoryController extends APIBaseController
 
     public function batch(Request $request)
     {
-        $date = '2019-01-01';
+        $date = '2019-06-01';
         if($request->has('date'))
         {
             $date = $request->input('date');

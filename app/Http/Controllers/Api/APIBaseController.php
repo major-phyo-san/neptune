@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller as Controller;
 
 /**
  * 
- */
+**/
 class APIBaseController extends Controller
-{
-	
+{	
 	public function sendResponse($date,$exchange_type,$response_description,$content)
 	{
 		$response = [

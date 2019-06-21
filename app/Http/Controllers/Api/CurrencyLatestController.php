@@ -94,5 +94,4 @@ class CurrencyLatestController extends APIBaseController
         return $this->sendResponse($date,"latest","currencies",$contentCollection);
 
     }
-
 }

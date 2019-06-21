@@ -12,9 +12,7 @@ class CountryResourceController extends APIBaseController
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    **/
     public function index(Request $request)
     {
         $now = Carbon::now();
@@ -23,21 +21,23 @@ class CountryResourceController extends APIBaseController
         if($request->has('country_code'))
         {
             $countryCode = $request->input('country_code');
-            $content = Country::query()->where('country_code','=',$countryCode)->get();           
+            $content = Country::query()
+            ->where('country_code','=',$countryCode)->get();           
             return $this->sendResponse($date,"Find country","country",$content);
         }
 
         if($request->has('country_name'))
         {
             $countryName =  $request->input('country_name');
-            $content = Country::query()->where('country_name', 'LIKE', "%{$countryName}%")->get();
+            $content = Country::query()
+            ->where('country_name', 'LIKE', "%{$countryName}%")->get();
             return $this->sendResponse($date,"Find Country","countries",$content);    
         }
 
         else
         {
            $content = Country::get();
-           return $this->sendResponse($date,"Listing Countres","countries",$content);
+           return $this->sendResponse($date,"Listing Countries","countries",$content);
                    
         }
         
@@ -46,9 +46,7 @@ class CountryResourceController extends APIBaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    **/
     public function store(Request $request)
     {
         //
@@ -69,9 +67,7 @@ class CountryResourceController extends APIBaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    **/
     public function show($id)
     {
         //
@@ -84,10 +80,7 @@ class CountryResourceController extends APIBaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    **/
     public function update(Request $request, $id)
     {
         //
@@ -98,9 +91,7 @@ class CountryResourceController extends APIBaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    **/
     public function destroy($id)
     {
         //
