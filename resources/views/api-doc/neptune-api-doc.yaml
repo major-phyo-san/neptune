@@ -1,0 +1,454 @@
+swagger: '2.0'
+info:
+  description: This is a simple REST API
+  version: 1.0.0
+  title: Simple Currency API
+  # put the contact info for your development or API team
+  contact:
+    email: phyojupiter@gmail.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: admins
+  description: Secured Admin-only calls
+- name: developers
+  description: Operations available to regular developers
+
+paths:
+  /countries:
+    get:
+      parameters:
+      - in: query
+        name: country_code, country_name
+        description: Pass an optional search string for looking up country. Find with country code to single matching result, with country name to multiple results.
+        required: false
+        type: string
+      tags:
+      - developers
+      summary: search a country or list all countries
+      operationId: searchCountry
+      description: |
+        Get all available countries, you can search for
+        available country in the system by apprpriate search string
+      produces:
+      - application/json
+      responses:
+        200:
+          description: search results matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Country'
+        400:
+          description: bad input parameter
+          
+  /countries/{id}:
+    get:
+      parameters:
+      - name: id
+        in: path
+        description: country id
+        required: true
+        type: integer
+        format: int64
+      tags:
+      - developers
+      summary: get a country with id
+      operationId: getCountry
+      produces:
+      - application/json
+      responses:
+        200:
+          description: country found
+          schema:
+            type: object
+            items: 
+              $ref: '#/definitions/Country'
+        404:
+          description: country not found with that id
+            
+  /countries/store:
+    post:
+      parameters:
+      - in: query
+        name: country_name, country_code, currency_name, currency_code, currency_symbol
+        description: create a new country for the system
+        required: true
+        type: string
+      tags:
+      - admins
+      summary: add a new country
+      operationId: addCountry
+      description: Adds a country to the system
+      consumes:
+      - application/json
+      responses:        
+        201:
+          description: country created successfully
+        400:
+          description: invalid input, object invalid
+          
+  /countries/update/{id}:
+    put:
+      parameters:
+      - in: path
+        name: id        
+        description: country id
+        required: true
+        type: integer
+        format: int64
+      tags:
+      - admins
+      summary: update a country
+      operationId: updateCountry
+      description: update a country data
+      consumes:
+      - application/json
+      responses:
+        201:
+          description: successfully updated a country
+        400:
+          description: invalid input, object invalid
+        404:
+          description: country not found with that id
+        
+  /countries/delete/{id}:
+    delete:
+      parameters:
+      - name: id
+        in: path
+        description: country id
+        required: true
+        type: integer
+        format: int64
+      tags: 
+      - admins
+      summary: delete a country
+      description: country deleted
+      responses:
+        200:
+          description: successfully deleted a country
+        404:
+          description: country not found with that id
+    
+  /rates:
+    get:
+      tags:
+      - admins
+      summary: list all currency rates from database
+      operationId: searchRates
+      produces: 
+      - application/json
+      responses:
+        200:
+          description: List all the rates in the system (for admins)
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Rate'
+        404:
+          description: country not found with that id
+      
+    
+  /rates/store:
+    post:
+      parameters:
+      - in: query
+        name: country_id, recorded_date, currency_rate
+        description: create a new currency rate for a country on a date
+        required: true
+        type: string
+      tags:
+      - admins
+      summary: create a new rate
+      operationId: createRate
+      consumes:
+      - application/json
+      responses:
+        200:
+          description: rate created successfully
+        400:
+          description: invalid input, object invalid
+          
+  /rates/update/{id}:
+    put:
+      parameters:
+      - name: id
+        in: path
+        description: rate id
+        required: true
+        type: integer
+        format: int64
+      tags:
+      - admins
+      summary: update a rate
+      operationId: updateRate
+      consumes:
+      - application/json
+      responses:
+        200:
+          description: successfully updated a rate
+        400:
+          description: invalid input, object invalid
+        404:
+          description: rate not found with that id
+          
+  /rates/delete/{id}:
+    delete:
+      parameters:
+      - name: id
+        in: path
+        description: rate id
+        required: true
+        type: integer
+        format: int64
+      tags:
+      - admins
+      summary: delete a rate
+      operationId: deleteRate
+      responses:
+        200:
+          description: successfully deleted a rate
+        404:
+          description: rate not found with that id
+      
+  /currencies/history:
+    get:
+      parameters:
+      - in: query
+        name: date
+        description: Pass a date for historical currency data, if not specified the default "2019-01-01" will be used.
+        required: false
+        type: string
+      tags:
+      - developers
+      summary: get all historical currency rates
+      operationId: getHistoricalRates
+      produces:
+      - application/json
+      responses:
+        200:
+          description: API request successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Currency'
+              
+  /currencies/history/{currency_code}:
+    get:
+      parameters:
+      - name: currency_code
+        in: path
+        description: currency code
+        required: true
+        type: string
+        format: guid
+      - in: query
+        name: date
+        description: Pass a date for historical currency data, if not specified the default "2019-01-01" will be used.
+        required: false
+        type: string
+        
+      tags:
+      - developers
+      summary: get a historical currency rate from currency code
+      operationId: getHistoricalRate
+      produces:
+      - application/json
+      responses:
+        200: 
+          description: API request successful
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Currency'
+        400:
+          description: bad input parameter
+        404:
+          description: rate not found with that country code
+          
+  /currencies/history/batch:
+    get:
+      parameters:
+      - in: query
+        name: date, codes
+        description: Pass a date for historical currency data, if not specified the default "2019-01-01" will be used. codes must be a comma seperated country codes.
+        required: false
+        type: string
+        
+      tags:
+      - developers
+      summary: get a bunch of historical currency rates from currency codes
+      operationId: getBatchHistoricalRates
+      produces:
+      - application/json
+      responses:
+        200: 
+          description: API request successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Currency'
+        400:
+          description: bad input parameter
+          
+  /currencies/latest:
+    get:
+      tags:
+      - developers
+      summary: get all latest currency rates
+      operationId: getLatestRates
+      produces:
+      - application/json
+      responses:
+        200:
+          description: API request successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Currency'
+              
+  /currencies/latest/{currency_code}:
+    get:
+      parameters:
+        - name: currency_code
+          in: path
+          description: currency code
+          required: true
+          type: string
+          format: guid
+        - in: query
+          name: date
+          description: Pass a date for latest currency data, if not specified the default "2019-01-01" will be used.
+          required: false
+          type: string
+      tags:
+      - developers
+      summary: get a latest currency rate from currency code
+      operationId: getLatestlRate
+      produces:
+      - application/json
+      responses:
+        200: 
+          description: API request successful
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/Currency'
+        400:
+          description: bad input parameter
+        404:
+          description: rate not found with that country code
+          
+  /currencies/latest/batch:
+    get:
+      parameters:
+      - in: query
+        name: date, codes
+        description: pass a date for historical currency data, if not specified the default "2019-01-01" will be used. codes must be a comma seperated country codes.
+        required: false
+        type: string
+         
+      tags:
+      - developers
+      summary: get a bunch of latest currency rates from currency codes
+      operationId: getBatchLatestRates
+      produces:
+      - application/json
+      responses:
+        200: 
+          description: API request successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Currency'
+        400:
+          description: bad input parameter
+      
+definitions:
+  Country:
+    type: object
+    required:
+    - id
+    - country_name
+    - country_code
+    - currency_name
+    - currency_code
+    - currency_symbol
+    
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 7
+      country_name:
+        type: string
+        example: "The United Kingdom"
+      country_code:
+        type: string
+        format: guid
+        example: 'GBR'
+      currency_name:
+        type: string
+        example: "Pound Sterling"
+      currency_code:
+        type: string
+        example: "GBP"
+      currency_symbol:
+        type: string
+        example: "£"
+        
+  Rate:
+    type: object
+    required: 
+    - country_id
+    - recorded_date
+    - currency_rate
+    
+    properties:
+      country_id:
+        type: integer
+        format: int64
+        example: 7
+      recorded_date:
+        type: string
+        format: guid
+        example: "2019-01-01"
+  
+  Currency:
+    type: object
+    
+    properties:
+      rate:
+        type: number
+        format: guid
+        example: 1530.52
+      name:
+        type: string
+        format: guid
+        example: "Myanmar Kyat"
+      code:
+        type: string
+        format: guid
+        example: "MMK"
+      symbol:
+        type: string
+        format: guid
+        example: "Ks"
+  
+       
+# Added by API Auto Mocking Plugin
+# host: localhost:8000
+# basePath: /api/
+# schemes:
+#  - http
+# Added by API Auto Mocking Plugin
+schemes:
+ - http
+# Added by API Auto Mocking Plugin
+host: localhost:8000
+basePath: /api

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Validator;
 use App\Models\Rate;
+use Carbon\Carbon;
 
-class RateResourceController extends Controller
+class RateResourceController extends APIBaseController
 {
     /**
      * Display a listing of the resource.
@@ -15,50 +17,35 @@ class RateResourceController extends Controller
      */
     public function index()
     {
-        //
-        $response = [
-            "success"=>true,
-            "timestamp"=>time(),
-            "exchange_type"=>"Recorded rates",
-            "message"=>"you must specify date in YYYY-DD-MM format",
-        ];
-        $content = Rate::get();
+        $now = Carbon::now();
+        $date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
 
-        $response += [
-            "recorded_rates"=>$content,
-        ];
-        return response()->json($response)
-        ->withHeaders([
-            "Content-Type" => 'application/json; charset=utf-8',
-            "Access-Control-Allow-Origin" => '*',
-        ]);  
+        $content = Rate::get();  
+        return $this->sendResponse($date,"Liting all rates","rates",$content);
     }
 
     public function show($id)
     {
-        //
-        $response = [
-            "success" => true,
-            "timestamp" => time(),
-            "exchange_type"=>"Recorded rates",
-            "message"=>"you must specify date in YYYY-DD-MM format",
-        ];        
+        $now = Carbon::now();
+        $date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
+             
         $content = Rate::findOrFail($id);
-
-        $response += [
-                "recorded_rates" => $content
-        ];
-        return response()->json($response)
-        ->withHeaders([
-            "Content-Type" => 'application/json; charset=utf-8',
-            "Access-Control-Allow-Origin" => '*',
-        ]);    
+        return $this->sendResponse($date,"Get a single rate by ID","rate",$content);
     }
 
     
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $validator = Validator::make($input,[
+            "country_id"=>"required",
+            "recorded_date"=>"required",
+            "currency_rate"=>"required",
+        ]);
+        if($validator->fails())
+        {
+            return redirect()->route(null,[],400);
+        }
         Rate::create($request->all());
     }    
 
