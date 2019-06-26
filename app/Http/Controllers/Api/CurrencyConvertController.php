@@ -15,7 +15,7 @@ class CurrencyConvertController extends APIBaseController
     {
         $from_currency_code = 'USD';
         $to_currency_code = 'MMK';
-        $amount = 0.0;
+        $amount = 1.0;
         $now = Carbon::now();
         $date = $now->format('Y').'-'.$now->format('m').'-'.$now->format('d');
         if($request->has('to'))

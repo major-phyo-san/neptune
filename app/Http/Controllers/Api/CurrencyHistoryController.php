@@ -32,6 +32,7 @@ class CurrencyHistoryController extends APIBaseController
                 "name"=> $country->currency_name,
                 "code"=>$country->currency_code,
                 "symbol" => $country->currency_symbol,
+                "country_code"=>$country->country_code,
             ];            
         }
 
