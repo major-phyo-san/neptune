@@ -23,7 +23,10 @@ class APIBaseController extends Controller
 		return response()->json($response)
 		->withHeaders([
             "Content-Type"=>"application/json; charset=utf-8",
-            "Access-Control-Allow-Origin"=>"*"
+            "Access-Control-Allow-Origin"=>"*",
+            "Access-Control-Allow-Credentials"=>"true",
+            "Access-Control-Allow-Methods"=>"GET, POST",
+            "Cache-Control"=>"public, max-age=3600"
         ]);
 	}
 }
