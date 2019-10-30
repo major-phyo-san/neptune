@@ -1,5 +1,5 @@
 var currencyApp = angular.module("currencyApp",['ngMaterial','ngMessages','ngRoute','md.data.table']);
-currencyApp.value("hostUrl", "http://192.168.1.20:8000");
+currencyApp.value("hostUrl", "http://172.10.1.233:8000");
 
 currencyApp.config(['$routeProvider', function($routeProvider){
     $routeProvider
